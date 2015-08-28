@@ -16,21 +16,30 @@ app.use( bodyParser.urlencoded( {
 app.use( express.static( path.join( __dirname + '/static' ) ) );
 
 app.get( '/', function( req, res ) {
-    res.sendFile( __dirname + "/index.html" );
+    // res.sendFile( __dirname + "/index.html" );
+    res.render('index');
 } );
 
 app.post('/search', function(req, res){
+    console.log(req);
     var filmdata = '';
     var title = req.body.title, year = req.body.year;
     getInfo(title, year, function(err, data){
-      res.json(data);
-    })
-
+      res.render('filmpage',
+      {
+        title : data.Title,
+        year : data.Year,
+        writer : data.Writer,
+        poster : data.Poster
+      });
+    });
 
 });
 
 function getInfo (title, year, callback){
-  var queryString = '/?t=' + title + '&y=' + year + '&plot=short&r=json';
+  newTitle = title.replace(/ /g, '+');
+  var queryString = '/?t=' + newTitle + '&y=' + year + '&plot=short&r=json';
+  console.log(queryString);
   var options = {
       host: 'omdbapi.com',
       path: queryString,

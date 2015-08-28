@@ -1,0 +1,17 @@
+doctype
+html
+  head
+    title Media Log
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(src="/search.js")
+  body
+    .inputs
+      form.search-params(method="POST", action="/search")
+        span
+          | Title
+        input(type="text", name="title", value="avengers", required)
+        span
+          | Year
+        input(type="number", name="year", value="2012", min="1850", max="2050")
+        input(type="submit", value="Search")
+      .data
